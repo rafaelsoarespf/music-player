@@ -241,7 +241,7 @@ main {
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  font-size: 1.7rem;
+  font-size: 1.9rem;
   transition: transform 0.2s ease;
 }
 
@@ -266,4 +266,41 @@ main {
   background-color: var(--color-accent); 
   border-radius: 3px;
   transition: width 0.1s linear;
+}
+
+.card__time {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  font: var(--font-text);
+  color: var(--color-text);
+  margin-top: 0.25rem;
+}
+
+.card__volume {
+  position: relative;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+}
+
+.card__volume label {
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+#volume {
+  position: absolute;
+  bottom: 140%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  opacity: 0;
+  transition: opacity 0.2s ease, bottom 0.2s ease;
+  z-index: 3; 
+}
+
+.card__volume:hover #volume {
+  opacity: 1;
+  bottom: 160%; 
 }

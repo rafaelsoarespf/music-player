@@ -33,6 +33,7 @@
   </header>
 
   <main role="main">
+    <!--card =====================================-->
     <div class="card">
       <h2 id="card__title">Nome da Música</h2>
       <p>Descrição da Música</p>
@@ -44,11 +45,22 @@
         <div class="card__progress"></div>
       </div>
 
+      <!--card time-->
+      <div class="card__time">
+        <span id="current-time">0:00</span> / <span id="duration">0:00</span>
+      </div>
+
       <!--card controls-->
       <div class="card__controls">
         <button class="card__btn-prev btn">⏮</button>
         <button class="card__btn-play btn">▶</button>
         <button class="card__btn-next btn">⏭</button>
+        
+        <!--card volume-->
+        <div class="card__volume">
+          <label for="volume">🔊</label>
+          <input type="range" id="volume" min="0" max="1" step="0.01" value="1">
+        </div>
       </div>
     </div>
 

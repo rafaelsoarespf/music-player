@@ -68,6 +68,7 @@ audio.addEventListener('ended', () => {
 });
 
 
+// progress bar click ===========================
 
 const progressContainer = document.querySelector('.card__progress-container') as HTMLDivElement;
 progressContainer.addEventListener('click', (e: MouseEvent) => {
@@ -75,4 +76,42 @@ progressContainer.addEventListener('click', (e: MouseEvent) => {
   const clickX = e.offsetX;
   if (!audio.duration) return;
   audio.currentTime = (clickX / width) * audio.duration;
+});
+
+
+// card time ===========================
+const currentTimeEl = document.getElementById('current-time') as HTMLSpanElement;
+const durationEl = document.getElementById('duration') as HTMLSpanElement;
+
+function formatTime(seconds: number): string {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+}
+
+audio.addEventListener('loadedmetadata', () => {
+  durationEl.textContent = formatTime(audio.duration);
+});
+
+audio.addEventListener('timeupdate', () => {
+  currentTimeEl.textContent = formatTime(audio.currentTime);
+  
+  if (audio.duration) {
+    const percent: number = (audio.currentTime / audio.duration) * 100;
+    progress.style.width = `${percent}%`;
+  }
+});
+
+
+// card volume
+const volumeSlider = document.getElementById('volume') as HTMLInputElement;
+
+audio.volume = parseFloat(volumeSlider.value);
+
+volumeSlider.addEventListener('input', () => {
+  audio.volume = parseFloat(volumeSlider.value);
+});
+
+audio.addEventListener('volumechange', () => {
+  volumeSlider.value = audio.volume.toString();
 });

@@ -50,17 +50,41 @@ audio.addEventListener('ended', () => {
     currentMusicIndex = (currentMusicIndex + 1) % playlist.length;
     loadMusic(currentMusicIndex);
 });
+// progress bar click ===========================
 const progressContainer = document.querySelector('.card__progress-container');
 progressContainer.addEventListener('click', (e) => {
-    // Largura total da barra
     const width = progressContainer.clientWidth;
-    // Posição do clique dentro da barra
     const clickX = e.offsetX;
-    // Garante que a duração do áudio esteja definida
     if (!audio.duration)
         return;
-    // Calcula o tempo correspondente ao clique e atualiza o áudio
     audio.currentTime = (clickX / width) * audio.duration;
+});
+// card time ===========================
+const currentTimeEl = document.getElementById('current-time');
+const durationEl = document.getElementById('duration');
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+}
+audio.addEventListener('loadedmetadata', () => {
+    durationEl.textContent = formatTime(audio.duration);
+});
+audio.addEventListener('timeupdate', () => {
+    currentTimeEl.textContent = formatTime(audio.currentTime);
+    if (audio.duration) {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        progress.style.width = `${percent}%`;
+    }
+});
+// card volume
+const volumeSlider = document.getElementById('volume');
+audio.volume = parseFloat(volumeSlider.value);
+volumeSlider.addEventListener('input', () => {
+    audio.volume = parseFloat(volumeSlider.value);
+});
+audio.addEventListener('volumechange', () => {
+    volumeSlider.value = audio.volume.toString();
 });
 export {};
 //# sourceMappingURL=main.js.map
