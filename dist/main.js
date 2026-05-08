@@ -46,5 +46,21 @@ btnNext.addEventListener('click', () => {
     currentMusicIndex = (currentMusicIndex + 1) % playlist.length;
     loadMusic(currentMusicIndex);
 });
+audio.addEventListener('ended', () => {
+    currentMusicIndex = (currentMusicIndex + 1) % playlist.length;
+    loadMusic(currentMusicIndex);
+});
+const progressContainer = document.querySelector('.card__progress-container');
+progressContainer.addEventListener('click', (e) => {
+    // Largura total da barra
+    const width = progressContainer.clientWidth;
+    // Posição do clique dentro da barra
+    const clickX = e.offsetX;
+    // Garante que a duração do áudio esteja definida
+    if (!audio.duration)
+        return;
+    // Calcula o tempo correspondente ao clique e atualiza o áudio
+    audio.currentTime = (clickX / width) * audio.duration;
+});
 export {};
 //# sourceMappingURL=main.js.map

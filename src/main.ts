@@ -60,3 +60,19 @@ btnNext.addEventListener('click', () => {
   currentMusicIndex = (currentMusicIndex + 1) % playlist.length;
   loadMusic(currentMusicIndex);
 });
+
+
+audio.addEventListener('ended', () => {
+  currentMusicIndex = (currentMusicIndex + 1) % playlist.length;
+  loadMusic(currentMusicIndex);
+});
+
+
+
+const progressContainer = document.querySelector('.card__progress-container') as HTMLDivElement;
+progressContainer.addEventListener('click', (e: MouseEvent) => {
+  const width = progressContainer.clientWidth;
+  const clickX = e.offsetX;
+  if (!audio.duration) return;
+  audio.currentTime = (clickX / width) * audio.duration;
+});
