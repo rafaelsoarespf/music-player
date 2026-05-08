@@ -210,7 +210,6 @@ main {
   margin-top: 1rem;
 }
 
-
 .card__btn-play {
   width: 70px;
   height: 70px;
@@ -248,3 +247,20 @@ main {
   transform: scale(1.2);
 }
 
+/* card__progress */
+.card__progress-container {
+  width: 100%;             
+  height: 6px;
+  background-color: var(--color-surface-2); 
+  border-radius: 3px;
+  margin-top: 0.5rem;
+  overflow: hidden;
+}
+
+.card__progress {
+  height: 100%;
+  width: 0%;               
+  background-color: var(--color-accent); 
+  border-radius: 3px;
+  transition: width 0.1s linear;
+}
