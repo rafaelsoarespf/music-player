@@ -148,6 +148,7 @@ main {
   box-shadow: 0 4px 10px var(--color-shadow);
   transition: transform 0.2s ease, opacity 0.2s ease;
   cursor: pointer;
+  line-height: 1;
 }
 .btn:hover{
   opacity: 0.9;
@@ -161,7 +162,10 @@ main {
   border: 1px solid var(--color-border);
 }
 
-/*card*/
+
+
+/*============================================================*/
+/*card music*/
 .card {
   width: 90%;       
   max-width: 650px;
@@ -198,7 +202,49 @@ main {
   box-shadow: 0 4px 10px var(--color-shadow);
 }
 
-/*============================================================*/
+.card__controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
 
 
+.card__btn-play {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  font-size: 2rem;
+  box-shadow: 0 4px 12px var(--color-shadow);
+  transition: transform 0.2s ease;
+}
+
+.card__btn-play:hover {
+  transform: scale(1.15);
+  box-shadow: 0 6px 16px var(--color-shadow);
+}
+
+.card__btn-prev,
+.card__btn-next {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  text-align: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  font-size: 1.7rem;
+  transition: transform 0.2s ease;
+}
+
+.card__btn-prev:hover,
+.card__btn-next:hover {
+  transform: scale(1.2);
+}
 
