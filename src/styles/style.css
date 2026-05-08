@@ -120,12 +120,24 @@ a:hover, button:hover {
 
 button:active { transform: scale(0.98);}
 
+body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 /*============================================================*/
 /*General Classes Componets===================================*/
 
 /*button*/
 .btn{
-	display: inline-block;
+  display: inline-block;
   text-decoration: none;
   font: var(--font-text);
   color: #fff;
@@ -148,3 +160,45 @@ button:active { transform: scale(0.98);}
   background: transparent;
   border: 1px solid var(--color-border);
 }
+
+/*card*/
+.card {
+  width: 90%;       
+  max-width: 650px;
+  min-width: 300px; 
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-border);
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 20px 50px var(--color-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 25px 60px var(--color-shadow);
+}
+
+.card h2 {
+  margin-bottom: 0.5rem;
+}
+
+.card p {
+  opacity: 0.9;
+}
+
+.card audio {
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 10px var(--color-shadow);
+}
+
+/*============================================================*/
+
+
+
