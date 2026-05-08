@@ -16,7 +16,7 @@
   --blur: blur(15px); /*backdrop-filter: var(--blur);*/
 
   --font-title: 700 2rem "Montserrat", Verdana, Helvetica, sans-serif;
-  --font-subtitle: 500 1.45rem "Roboto", Verdana, Helvetica, sans-serif;
+  --font-subtitle: 500 1.45rem "Inter", Verdana, Helvetica, sans-serif;
   --font-text: 400 1rem "Inter", Verdana, Helvetica, sans-serif;
 }
 
