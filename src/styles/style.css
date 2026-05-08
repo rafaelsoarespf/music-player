@@ -304,3 +304,20 @@ main {
   opacity: 1;
   bottom: 160%; 
 }
+
+.card__btn-repeat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: none;
+  font-size: 1.9rem;
+  transition: transform 0.2s ease;
+}
+
+.card__btn-repeat:hover {
+  transform: scale(1.2);
+}

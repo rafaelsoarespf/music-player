@@ -62,12 +62,6 @@ btnNext.addEventListener('click', () => {
 });
 
 
-audio.addEventListener('ended', () => {
-  currentMusicIndex = (currentMusicIndex + 1) % playlist.length;
-  loadMusic(currentMusicIndex);
-});
-
-
 // progress bar click ===========================
 
 const progressContainer = document.querySelector('.card__progress-container') as HTMLDivElement;
@@ -114,4 +108,54 @@ volumeSlider.addEventListener('input', () => {
 
 audio.addEventListener('volumechange', () => {
   volumeSlider.value = audio.volume.toString();
+});
+
+
+//button repeat
+const btnRepeat = document.querySelector('.card__btn-repeat') as HTMLButtonElement;
+let repeatOne = false;
+
+audio.addEventListener('ended', () => {
+  if (repeatOne) {
+    audio.currentTime = 0;
+    audio.play();
+    return; // Sai da função
+  }
+
+  playNextMusic();
+});
+
+function playNextMusic() {
+  currentMusicIndex = (currentMusicIndex + 1) % playlist.length;
+  const nextMusic = playlist[currentMusicIndex];
+  if (!nextMusic) return;
+  audio.src = nextMusic.src;
+  musicTitle.textContent = nextMusic.title;
+  audio.play();
+  btnPlay.textContent = '⏸';
+  updateRepeatButton();
+}
+
+function updateRepeatButton() {
+  if (repeatOne) {
+    btnRepeat.textContent = '🔂'; // repeat-one ativo
+    btnRepeat.style.color = 'var(--color-accent)';
+  } else {
+    btnRepeat.textContent = '🔁'; // repeat normal
+    btnRepeat.style.color = '#fff';
+  }
+}
+
+btnRepeat.addEventListener('click', () => {
+  repeatOne = !repeatOne;
+  updateRepeatButton(); // atualiza ícone e cor
+});
+
+audio.addEventListener('ended', () => {
+  if (repeatOne) {
+    audio.currentTime = 0;
+    audio.play();
+  } else {
+    playNextMusic();
+  }
 });
