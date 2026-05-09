@@ -30,6 +30,7 @@ export async function initMusicPlayer() {
 
 // ============================================================
 // variables ==================================================
+const card = document.querySelector('#card');
 const musicTitle = document.querySelector('#card__title') as HTMLHeadingElement;
 const author = document.querySelector('#card__author') as HTMLParagraphElement;
 const audio = document.querySelector('#card__audio') as HTMLAudioElement;
@@ -39,7 +40,7 @@ const btnNext = document.querySelector('.card__btn-next') as HTMLButtonElement;
 const btnRepeat = document.querySelector('.card__btn-repeat') as HTMLButtonElement;
 const progress = document.querySelector('.card__progress') as HTMLDivElement;
 const progressContainer = document.querySelector('.card__progress-container') as HTMLDivElement;
-const cardImage = document.querySelector('#card__image') as HTMLImageElement;
+const image = document.querySelector('#card__image') as HTMLImageElement;
 const currentTimeEl = document.querySelector('#current-time') as HTMLSpanElement;
 const durationEl = document.querySelector('#duration') as HTMLSpanElement;
 const volumeSlider = document.getElementById('volume') as HTMLInputElement;
@@ -63,16 +64,29 @@ function loadMusic(index: number) {
   audio.src = music.src;
   musicTitle.textContent = music.title;
   author.textContent = music.author;
-  cardImage.src = music.image;
-  cardImage.onload = () => backgroundColorImage();
-  audio.play();
+  image.src = music.image;
+  image.onload = () => backgroundColorImage();
+  playMusic()
 }
 
 // ===========================================================
 // btnPlayTogglePlayPause ====================================
 function btnPlayTogglePlayPause() {
-  audio.paused ? audio.play() : audio.pause();
-  btnPlay.textContent = audio.paused ? '▶' : '⏸';
+  audio.paused ? playMusic() : pauseMusic();
+}
+
+function playMusic(){
+  audio.play();
+  btnPlay.textContent =  '⏸';
+  if (!card) return;
+  image.classList.add('animation__card__image');
+}
+
+function pauseMusic(){
+  audio.pause()
+  btnPlay.textContent =  '▶';
+  if (!card) return;
+  image.classList.remove('animation__card__image');
 }
 
 // ===========================================================
@@ -109,7 +123,7 @@ function volumeSliderUpdate() {
 function musicEnd() {
   if (repeatMusic) {
     audio.currentTime = 0;
-    audio.play();
+    playMusic();
   } else {
     btnNextMusicNext();
   }
@@ -143,7 +157,7 @@ function updateTimeDisplay() {
 // ===========================================================
 // Background ================================================
 function backgroundColorImage() {
-  const dominantColor = getDominantColorImage(cardImage);
+  const dominantColor = getDominantColorImage(image);
   document.body.style.background = `radial-gradient(circle at center,rgba(${dominantColor.match(/\d+/g)!.join(',')}, 0.15) 30%,rgba(18, 18, 18, 0.25) 70%,#121212 100%)`;
 }
 

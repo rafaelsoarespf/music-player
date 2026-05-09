@@ -21,6 +21,7 @@ export async function initMusicPlayer() {
 }
 // ============================================================
 // variables ==================================================
+const card = document.querySelector('#card');
 const musicTitle = document.querySelector('#card__title');
 const author = document.querySelector('#card__author');
 const audio = document.querySelector('#card__audio');
@@ -30,7 +31,7 @@ const btnNext = document.querySelector('.card__btn-next');
 const btnRepeat = document.querySelector('.card__btn-repeat');
 const progress = document.querySelector('.card__progress');
 const progressContainer = document.querySelector('.card__progress-container');
-const cardImage = document.querySelector('#card__image');
+const image = document.querySelector('#card__image');
 const currentTimeEl = document.querySelector('#current-time');
 const durationEl = document.querySelector('#duration');
 const volumeSlider = document.getElementById('volume');
@@ -51,15 +52,28 @@ function loadMusic(index) {
     audio.src = music.src;
     musicTitle.textContent = music.title;
     author.textContent = music.author;
-    cardImage.src = music.image;
-    cardImage.onload = () => backgroundColorImage();
-    audio.play();
+    image.src = music.image;
+    image.onload = () => backgroundColorImage();
+    playMusic();
 }
 // ===========================================================
 // btnPlayTogglePlayPause ====================================
 function btnPlayTogglePlayPause() {
-    audio.paused ? audio.play() : audio.pause();
-    btnPlay.textContent = audio.paused ? '▶' : '⏸';
+    audio.paused ? playMusic() : pauseMusic();
+}
+function playMusic() {
+    audio.play();
+    btnPlay.textContent = '⏸';
+    if (!card)
+        return;
+    image.classList.add('animation__card__image');
+}
+function pauseMusic() {
+    audio.pause();
+    btnPlay.textContent = '▶';
+    if (!card)
+        return;
+    image.classList.remove('animation__card__image');
 }
 // ===========================================================
 // function btnPrevMusicPrev() ===============================
@@ -90,7 +104,7 @@ function volumeSliderUpdate() {
 function musicEnd() {
     if (repeatMusic) {
         audio.currentTime = 0;
-        audio.play();
+        playMusic();
     }
     else {
         btnNextMusicNext();
@@ -121,7 +135,7 @@ function updateTimeDisplay() {
 // ===========================================================
 // Background ================================================
 function backgroundColorImage() {
-    const dominantColor = getDominantColorImage(cardImage);
+    const dominantColor = getDominantColorImage(image);
     document.body.style.background = `radial-gradient(circle at center,rgba(${dominantColor.match(/\d+/g).join(',')}, 0.15) 30%,rgba(18, 18, 18, 0.25) 70%,#121212 100%)`;
 }
 function getDominantColorImage(img) {
