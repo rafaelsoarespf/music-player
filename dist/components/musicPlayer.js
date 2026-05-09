@@ -1,8 +1,9 @@
 // ============================================================
 // init =======================================================
 export async function initMusicPlayer() {
-    loadPlaylistData("/src/assets/data/music.json");
+    await loadPlaylistData("/src/assets/data/music.json");
     loadMusic(currentMusicIndex);
+    pauseMusic();
     //btn
     btnPlay.addEventListener('click', btnPlayTogglePlayPause);
     btnPrev.addEventListener('click', btnPrevMusicPrev);
