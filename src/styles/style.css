@@ -124,6 +124,27 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: background 0.5s ease;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: inherit;   
+  filter: blur(30px);    
+  transform: scale(1.1); 
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url('noise.png'); 
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: -1;
 }
 
 main {
@@ -171,15 +192,18 @@ main {
   max-width: 650px;
   min-width: 300px; 
   background: var(--color-surface-1);
-  border: 1px solid var(--color-border);
+  opacity: 0.8;                     
+  backdrop-filter: var(--blur);      
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 2rem;
   border-radius: 12px;
   text-align: center;
-  box-shadow: 0 20px 50px var(--color-shadow);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
 .card:hover {
@@ -323,7 +347,6 @@ main {
 }
 
 #card__image{
-  display: block;
   width: 256px;
   margin: 0 auto;
   border-radius: 12px;
