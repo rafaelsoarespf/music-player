@@ -253,7 +253,10 @@ main {
 }
 
 .card__btn-prev,
-.card__btn-next {
+.card__btn-next,
+.card__btn-repeat,
+.card__btn-shuffle,
+.card__volume label {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -262,15 +265,18 @@ main {
   border: none;
   box-shadow: none;
   text-align: center;
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  font-size: 1.9rem;
+  font-size: 1.8rem;
   transition: transform 0.2s ease;
 }
 
 .card__btn-prev:hover,
-.card__btn-next:hover {
+.card__btn-next:hover,
+.card__btn-repeat:hover,
+.card__btn-shuffle:hover,
+.card__volume label:hover {
   transform: scale(1.2);
 }
 
@@ -308,11 +314,6 @@ main {
   z-index: 2;
 }
 
-.card__volume label {
-  font-size: 1.8rem;
-  cursor: pointer;
-}
-
 #volume {
   position: absolute;
   bottom: 140%;
@@ -327,24 +328,6 @@ main {
 .card__volume:hover #volume {
   opacity: 1;
   bottom: 160%; 
-}
-
-.card__btn-repeat,
-.card__btn-shuffle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  background-color: transparent;
-  border: none;
-  font-size: 1.9rem;
-  transition: transform 0.2s ease;
-}
-
-.card__btn-repeat:hover {
-  transform: scale(1.2);
 }
 
 #card__image{

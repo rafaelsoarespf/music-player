@@ -65,14 +65,14 @@ function btnPlayTogglePlayPause() {
 }
 function playMusic() {
     audio.play();
-    btnPlay.textContent = '⏸';
+    btnPlay.innerHTML = '<i class="fa-solid fa-pause"></i>';
     if (!card)
         return;
     image.classList.add('animation__card__image');
 }
 function pauseMusic() {
     audio.pause();
-    btnPlay.textContent = '▶';
+    btnPlay.innerHTML = '<i class="fa-solid fa-play"></i>';
     if (!card)
         return;
     image.classList.remove('animation__card__image');
@@ -103,14 +103,20 @@ function btnNextMusicNext() {
 let shuffleMusic = false;
 function toggleShuffle() {
     shuffleMusic = !shuffleMusic;
-    btnShuffle.textContent = shuffleMusic ? '🔀' : '🔀✔️';
+    const icon = btnShuffle.querySelector('i');
+    if (!icon)
+        return;
+    icon.style.color = shuffleMusic ? 'var(--color-accent)' : '';
 }
 // ===========================================================
 // btnRepeatMusicRepeat ======================================
 let repeatMusic = false;
 function btnRepeatMusicRepeat() {
     repeatMusic = !repeatMusic;
-    btnRepeat.textContent = repeatMusic ? '🔂' : '🔁';
+    const icon = btnRepeat.querySelector('i');
+    if (!icon)
+        return;
+    icon.style.color = repeatMusic ? 'var(--color-accent)' : '';
 }
 // ===========================================================
 // volumeSliderUpdateVolume ==================================

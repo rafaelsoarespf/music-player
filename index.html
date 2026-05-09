@@ -22,6 +22,8 @@
 
   <!--Favicon-->
   <link rel="shortcut icon" href="" type="image/x-icon" />
+  <!--Icons-->
+  <link rel="stylesheet" href="src/assets/fonts/css/all.min.css">
   <!--CSS-->
   <link rel="stylesheet" href="src/styles/style.css" type="text/css" />
   <!--Javascript-->
@@ -52,14 +54,15 @@
 
       <!--card controls-->
       <div class="card__controls">
-        <button class="card__btn-shuffle btn">🔀</button>
-        <button class="card__btn-prev btn">⏮</button>
-        <button class="card__btn-play btn">▶</button>
-        <button class="card__btn-next btn">⏭</button>
-        <button class="card__btn-repeat btn">🔁</button>
+        <button style="opacity: 0; cursor: auto;"></button>
+        <button class="card__btn-shuffle btn"><i class="fa-solid fa-shuffle"></i></button>
+        <button class="card__btn-prev btn"><i class="fa-solid fa-backward-step"></i></button>
+        <button class="card__btn-play btn"><i class="fa-solid fa-play"></i></button>
+        <button class="card__btn-next btn"><i class="fa-solid fa-forward-step"></i></button>
+        <button class="card__btn-repeat btn"><i class="fa-solid fa-repeat"></i></button>
         <!--card volume-->
         <div class="card__volume">
-          <label for="volume">🔊</label>
+          <label for="volume"><i class="fa-solid fa-volume"></i></label>
           <input type="range" id="volume" min="0" max="1" step="0.01" value="1">
         </div>
       </div>
