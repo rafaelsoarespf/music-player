@@ -1,3 +1,5 @@
+import type { Music } from './types/music'
+
 const musicTitle = document.querySelector('#card__title') as HTMLHeadingElement;
 const author = document.querySelector('#card__author') as HTMLParagraphElement;
 const audio = document.getElementById('card__audio') as HTMLAudioElement;
@@ -6,12 +8,6 @@ const btnPrev = document.querySelector('.card__btn-prev') as HTMLButtonElement;
 const btnNext = document.querySelector('.card__btn-next') as HTMLButtonElement;
 const progress = document.querySelector('.card__progress') as HTMLDivElement;
 const cardImage = document.getElementById('card__image') as HTMLImageElement;
-interface Music {
-  title: string;
-  author: string;
-  image: string;
-  src: string;
-}
 
 let playlist: Music[] = [];
 let currentMusicIndex = 0;
