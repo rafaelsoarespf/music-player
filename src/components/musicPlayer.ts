@@ -7,6 +7,9 @@ export async function initMusicPlayer() {
   loadMusic(currentMusicIndex);
   pauseMusic();
 
+  //sound wave
+  initSoundWave(audioEl, waveContainer);
+
   //btn
   btnPlay.addEventListener('click', btnPlayTogglePlayPause);
   btnPrev.addEventListener('click', btnPrevMusicPrev);
@@ -46,6 +49,8 @@ const image = document.querySelector('#card__image') as HTMLImageElement;
 const currentTimeEl = document.querySelector('#current-time') as HTMLSpanElement;
 const durationEl = document.querySelector('#duration') as HTMLSpanElement;
 const volumeSlider = document.getElementById('volume') as HTMLInputElement;
+const audioEl = document.getElementById('card__audio') as HTMLAudioElement;
+const waveContainer = document.getElementById('card__sound-wave') as HTMLDivElement;
 
 let playlist: Music[] = [];
 let currentMusicIndex = 0;
@@ -54,7 +59,7 @@ let currentMusicIndex = 0;
 // loadPlaylistData ==========================================
 async function loadPlaylistData(url: string) {
   const res = await fetch(url);
-  playlist = await res.json() as Music[]; 
+  playlist = await res.json() as Music[];
 }
 
 // ===========================================================
@@ -76,9 +81,9 @@ function btnPlayTogglePlayPause() {
   audio.paused ? playMusic() : pauseMusic();
 }
 
-function playMusic(){
+function playMusic() {
   audio.play();
-  btnPlay.innerHTML =  '<i class="fa-solid fa-pause"></i>';
+  btnPlay.innerHTML = '<i class="fa-solid fa-pause"></i>';
   if (!card) return;
   image.classList.add('animation__card__image');
 }
@@ -129,9 +134,9 @@ function toggleShuffle() {
 // btnRepeatMusicRepeat ======================================
 let repeatMusic = false;
 
-function btnRepeatMusicRepeat(){
+function btnRepeatMusicRepeat() {
   repeatMusic = !repeatMusic;
-  
+
   const icon = btnRepeat.querySelector('i');
   if (!icon) return;
 
@@ -180,6 +185,48 @@ function updateTimeDisplay() {
   currentTimeEl.textContent = formatTime(audio.currentTime);
 }
 
+// ===========================================================
+// Sound Wave ================================================
+function initSoundWave(audioElement: HTMLAudioElement, container: HTMLDivElement) {
+  if (!audioElement || !container) return;
+
+  const numBars = 30;
+  const bars: HTMLDivElement[] = [];
+
+  for (let i = 0; i < numBars; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'card__sound-wave-bar';
+    container.appendChild(bar);
+    bars.push(bar);
+  }
+
+  const audioCtx = new AudioContext();
+  const analyser = audioCtx.createAnalyser();
+  const source = audioCtx.createMediaElementSource(audioElement);
+  source.connect(analyser);
+  analyser.connect(audioCtx.destination);
+
+  analyser.fftSize = 64;
+  const bufferLength = analyser.frequencyBinCount;
+  const dataArray = new Uint8Array(bufferLength);
+
+  // animation
+  function animateWave() {
+    requestAnimationFrame(animateWave);
+    analyser.getByteFrequencyData(dataArray);
+
+    bars.forEach((bar, i) => {
+      const dataIndex = Math.floor(i * bufferLength / numBars);
+      const value = dataArray[dataIndex]; if (!value) return;
+      const minHeight = 3;
+      const maxHeight = 90;
+      const barHeight = Math.max(minHeight, Math.min(value / 3, maxHeight));
+      bar.style.height = `${barHeight}px`;
+    });
+  }
+
+  animateWave();
+}
 // ===========================================================
 // Background ================================================
 function backgroundColorImage() {

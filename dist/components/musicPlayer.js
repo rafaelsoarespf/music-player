@@ -4,6 +4,8 @@ export async function initMusicPlayer() {
     await loadPlaylistData("/src/assets/data/music.json");
     loadMusic(currentMusicIndex);
     pauseMusic();
+    //sound wave
+    initSoundWave(audioEl, waveContainer);
     //btn
     btnPlay.addEventListener('click', btnPlayTogglePlayPause);
     btnPrev.addEventListener('click', btnPrevMusicPrev);
@@ -38,6 +40,8 @@ const image = document.querySelector('#card__image');
 const currentTimeEl = document.querySelector('#current-time');
 const durationEl = document.querySelector('#duration');
 const volumeSlider = document.getElementById('volume');
+const audioEl = document.getElementById('card__audio');
+const waveContainer = document.getElementById('card__sound-wave');
 let playlist = [];
 let currentMusicIndex = 0;
 // ===========================================================
@@ -156,6 +160,44 @@ function updateTimeDisplay() {
     };
     durationEl.textContent = formatTime(audio.duration);
     currentTimeEl.textContent = formatTime(audio.currentTime);
+}
+// ===========================================================
+// Sound Wave ================================================
+function initSoundWave(audioElement, container) {
+    if (!audioElement || !container)
+        return;
+    const numBars = 30;
+    const bars = [];
+    for (let i = 0; i < numBars; i++) {
+        const bar = document.createElement('div');
+        bar.className = 'card__sound-wave-bar';
+        container.appendChild(bar);
+        bars.push(bar);
+    }
+    const audioCtx = new AudioContext();
+    const analyser = audioCtx.createAnalyser();
+    const source = audioCtx.createMediaElementSource(audioElement);
+    source.connect(analyser);
+    analyser.connect(audioCtx.destination);
+    analyser.fftSize = 64;
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+    // animation
+    function animateWave() {
+        requestAnimationFrame(animateWave);
+        analyser.getByteFrequencyData(dataArray);
+        bars.forEach((bar, i) => {
+            const dataIndex = Math.floor(i * bufferLength / numBars);
+            const value = dataArray[dataIndex];
+            if (!value)
+                return;
+            const minHeight = 3;
+            const maxHeight = 90;
+            const barHeight = Math.max(minHeight, Math.min(value / 3, maxHeight));
+            bar.style.height = `${barHeight}px`;
+        });
+    }
+    animateWave();
 }
 // ===========================================================
 // Background ================================================
