@@ -5,14 +5,14 @@ const btnPlay = document.querySelector('.card__btn-play');
 const btnPrev = document.querySelector('.card__btn-prev');
 const btnNext = document.querySelector('.card__btn-next');
 const progress = document.querySelector('.card__progress');
-const cardImage = document.getElementById('card__image'); // ✅ declaração da imagem
-const playlist = [
-    { title: "Ambiente Elétrica", author: "Alex Morgan", image: "src/assets/image/image.png", src: "src/assets/audio/music.mp3" },
-    { title: "Upbeat Exciting Background Music Free", author: "JoyInSound", image: "src/assets/image/image2.png", src: "src/assets/audio/music2.mp3" },
-    { title: "Lofi Vlog Vlogs Music", author: "Tunetank", image: "src/assets/image/image3.png", src: "src/assets/audio/music3.mp3" }
-];
+const cardImage = document.getElementById('card__image');
+let playlist = [];
 let currentMusicIndex = 0;
-// ---------- FUNÇÕES ----------
+async function loadPlaylist() {
+    const res = await fetch('/src/assets/data/music.json');
+    playlist = await res.json();
+    loadMusic(currentMusicIndex);
+}
 function loadMusic(index) {
     const music = playlist[index];
     if (!music)
@@ -23,8 +23,7 @@ function loadMusic(index) {
     cardImage.src = music.image;
     audio.play();
     btnPlay.textContent = '⏸';
-    // Atualiza background quando a imagem terminar de carregar
-    cardImage.onload = () => updateCardBackground();
+    cardImage.onload = () => updateCardBackground(); // fundo dinâmico
 }
 function getDominantColor(img) {
     const canvas = document.createElement('canvas');
@@ -36,7 +35,7 @@ function getDominantColor(img) {
     ctx.drawImage(img, 0, 0);
     const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
     let r = 0, g = 0, b = 0, count = 0;
-    for (let i = 0; i < data.length; i += 16) { // passo 4 pixels
+    for (let i = 0; i < data.length; i += 16) {
         r += data[i];
         g += data[i + 1];
         b += data[i + 2];
@@ -49,16 +48,9 @@ function getDominantColor(img) {
 }
 function updateCardBackground() {
     const dominantColor = getDominantColor(cardImage);
-    document.body.style.background = `
-    radial-gradient(
-      circle at center,
-      rgba(${dominantColor.match(/\d+/g).join(',')}, 0.15) 30%,  /* centro ainda mais suave */
-      rgba(18, 18, 18, 0.25) 70%,                                   /* transição sutil */
-      #121212 100%                                                  /* bordas escuras */
-    )
-  `;
+    document.body.style.background = `radial-gradient(circle at center,rgba(${dominantColor.match(/\d+/g).join(',')}, 0.15) 30%,rgba(18, 18, 18, 0.25) 70%,#121212 100%)`;
 }
-// ---------- CONTROLES ----------
+// 
 btnPlay.addEventListener('click', () => {
     if (audio.paused) {
         audio.play();
@@ -87,7 +79,7 @@ audio.addEventListener('timeupdate', () => {
     const percent = (audio.currentTime / audio.duration) * 100;
     progress.style.width = `${percent}%`;
 });
-// tempo
+// time
 const currentTimeEl = document.getElementById('current-time');
 const durationEl = document.getElementById('duration');
 function formatTime(seconds) {
@@ -120,7 +112,7 @@ audio.addEventListener('ended', () => {
         loadMusic(currentMusicIndex);
     }
 });
-// inicializa
 loadMusic(currentMusicIndex);
+loadPlaylist();
 export {};
 //# sourceMappingURL=main.js.map

@@ -6,7 +6,6 @@ const btnPrev = document.querySelector('.card__btn-prev') as HTMLButtonElement;
 const btnNext = document.querySelector('.card__btn-next') as HTMLButtonElement;
 const progress = document.querySelector('.card__progress') as HTMLDivElement;
 const cardImage = document.getElementById('card__image') as HTMLImageElement;
-
 interface Music {
   title: string;
   author: string;
@@ -14,13 +13,14 @@ interface Music {
   src: string;
 }
 
-const playlist: Music[] = [
-  { title: "Ambiente Elétrica", author:"Alex Morgan", image:"src/assets/image/image.png",  src: "src/assets/audio/music.mp3" },
-  { title: "Upbeat Exciting Background Music Free", author:"JoyInSound", image:"src/assets/image/image2.png", src: "src/assets/audio/music2.mp3" },
-  { title: "Lofi Vlog Vlogs Music", author:"Tunetank", image:"src/assets/image/image3.png", src:"src/assets/audio/music3.mp3" }
-];
-
+let playlist: Music[] = [];
 let currentMusicIndex = 0;
+
+async function loadPlaylist() {
+  const res = await fetch('/src/assets/data/music.json');
+  playlist = await res.json() as Music[];
+  loadMusic(currentMusicIndex); 
+}
 
 function loadMusic(index: number) {
   const music = playlist[index];
@@ -33,7 +33,8 @@ function loadMusic(index: number) {
 
   audio.play();
   btnPlay.textContent = '⏸';
-  cardImage.onload = () => updateCardBackground();
+
+  cardImage.onload = () => updateCardBackground(); // fundo dinâmico
 }
 
 function getDominantColor(img: HTMLImageElement): string {
@@ -130,3 +131,4 @@ audio.addEventListener('ended', () => {
 });
 
 loadMusic(currentMusicIndex);
+loadPlaylist();

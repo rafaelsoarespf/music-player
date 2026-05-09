@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Ambiente Elétrica",
+    "author": "Alex Morgan",
+    "image": "src/assets/image/image.png",
+    "src": "src/assets/audio/music.mp3"
+  },
+  {
+    "title": "Upbeat Exciting Background Music Free",
+    "author": "JoyInSound",
+    "image": "src/assets/image/image2.png",
+    "src": "src/assets/audio/music2.mp3"
+  },
+  {
+    "title": "Lofi Vlog Vlogs Music",
+    "author": "Tunetank",
+    "image": "src/assets/image/image3.png",
+    "src": "src/assets/audio/music3.mp3"
+  }
+]
