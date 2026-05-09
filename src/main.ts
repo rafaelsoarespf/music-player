@@ -124,12 +124,7 @@ audio.addEventListener('ended', () => {
 
 function playNextMusic() {
   currentMusicIndex = (currentMusicIndex + 1) % playlist.length;
-  const nextMusic = playlist[currentMusicIndex];
-  if (!nextMusic) return;
-  audio.src = nextMusic.src;
-  musicTitle.textContent = nextMusic.title;
-  audio.play();
-  btnPlay.textContent = '⏸';
+  loadMusic(currentMusicIndex);
   updateRepeatButton();
 }
 
