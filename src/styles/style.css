@@ -321,3 +321,11 @@ main {
 .card__btn-repeat:hover {
   transform: scale(1.2);
 }
+
+#card__image{
+  display: block;
+  width: 256px;
+  margin: 0 auto;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}

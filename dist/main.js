@@ -1,13 +1,14 @@
 const musicTitle = document.querySelector('#card__title');
+const author = document.querySelector('#card__author');
 const audio = document.getElementById('card__audio');
 const btnPlay = document.querySelector('.card__btn-play');
 const btnPrev = document.querySelector('.card__btn-prev');
 const btnNext = document.querySelector('.card__btn-next');
 const progress = document.querySelector('.card__progress');
 const playlist = [
-    { title: "Musica 1", src: "src/assets/audio/music.mp3" },
-    { title: "Musica 2", src: "src/assets/audio/music2.mp3" },
-    { title: "Musica 3", src: "src/assets/audio/music3.mp3" }
+    { title: "Ambiente Elétrica", author: "Alex Morgan", image: "src/assets/image/image.png", src: "src/assets/audio/music.mp3" },
+    { title: "Upbeat Exciting Background Music Free", author: "JoyInSound", image: "src/assets/image/image2.png", src: "src/assets/audio/music2.mp3" },
+    { title: "Lofi Vlog Vlogs Music", author: "Tunetank", image: "src/assets//image/image3.png", src: "src/assets/audio/music3.mp3" }
 ];
 let currentMusicIndex = 0;
 // button play
@@ -32,9 +33,12 @@ function loadMusic(index) {
     if (!music)
         return;
     audio.src = music.src;
+    musicTitle.textContent = music.title;
+    author.textContent = music.author;
+    const cardImage = document.getElementById('card__image');
+    cardImage.src = music.image;
     audio.play();
     btnPlay.textContent = '⏸';
-    musicTitle.textContent = music.title;
 }
 // Button Prev
 btnPrev.addEventListener('click', () => {
@@ -127,5 +131,6 @@ audio.addEventListener('ended', () => {
         playNextMusic();
     }
 });
+loadMusic(currentMusicIndex);
 export {};
 //# sourceMappingURL=main.js.map

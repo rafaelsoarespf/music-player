@@ -1,24 +1,25 @@
 const musicTitle = document.querySelector('#card__title') as HTMLHeadingElement;
+const author = document.querySelector('#card__author') as HTMLParagraphElement;
 const audio = document.getElementById('card__audio') as HTMLAudioElement;
 const btnPlay = document.querySelector('.card__btn-play') as HTMLButtonElement;
 const btnPrev = document.querySelector('.card__btn-prev') as HTMLButtonElement;
 const btnNext = document.querySelector('.card__btn-next') as HTMLButtonElement;
 const progress = document.querySelector('.card__progress') as HTMLDivElement;
 
-
 interface Music {
   title: string;
+  author: string;
+  image: string;
   src: string;
 }
 
 const playlist: Music[] = [
-  { title: "Musica 1", src: "src/assets/audio/music.mp3" },
-  { title: "Musica 2", src: "src/assets/audio/music2.mp3" },
-  { title: "Musica 3", src: "src/assets/audio/music3.mp3" }
+  { title: "Ambiente Elétrica", author:"Alex Morgan", image:"src/assets/image/image.png",  src: "src/assets/audio/music.mp3" },
+  { title: "Upbeat Exciting Background Music Free", author:"JoyInSound", image:"src/assets/image/image2.png", src: "src/assets/audio/music2.mp3" },
+  { title: "Lofi Vlog Vlogs Music", author:"Tunetank", image:"src/assets//image/image3.png", src:"src/assets/audio/music3.mp3" }
 ];
 
 let currentMusicIndex = 0;
-
 
 // button play
 btnPlay.addEventListener('click', () => {
@@ -37,17 +38,18 @@ audio.addEventListener('timeupdate', () => {
   progress.style.width = `${percent}%`;
 });
 
-
 function loadMusic(index: number) {
   const music = playlist[index];
   if (!music) return;
 
   audio.src = music.src;
+  musicTitle.textContent = music.title;
+  author.textContent = music.author;
+  const cardImage = document.getElementById('card__image') as HTMLImageElement;
+  cardImage.src = music.image;
   audio.play();
   btnPlay.textContent = '⏸';
-  musicTitle.textContent = music.title;
 }
-
 
 // Button Prev
 btnPrev.addEventListener('click', () => {
@@ -61,9 +63,7 @@ btnNext.addEventListener('click', () => {
   loadMusic(currentMusicIndex);
 });
 
-
 // progress bar click ===========================
-
 const progressContainer = document.querySelector('.card__progress-container') as HTMLDivElement;
 progressContainer.addEventListener('click', (e: MouseEvent) => {
   const width = progressContainer.clientWidth;
@@ -71,7 +71,6 @@ progressContainer.addEventListener('click', (e: MouseEvent) => {
   if (!audio.duration) return;
   audio.currentTime = (clickX / width) * audio.duration;
 });
-
 
 // card time ===========================
 const currentTimeEl = document.getElementById('current-time') as HTMLSpanElement;
@@ -96,7 +95,6 @@ audio.addEventListener('timeupdate', () => {
   }
 });
 
-
 // card volume
 const volumeSlider = document.getElementById('volume') as HTMLInputElement;
 
@@ -109,7 +107,6 @@ volumeSlider.addEventListener('input', () => {
 audio.addEventListener('volumechange', () => {
   volumeSlider.value = audio.volume.toString();
 });
-
 
 //button repeat
 const btnRepeat = document.querySelector('.card__btn-repeat') as HTMLButtonElement;
@@ -159,3 +156,6 @@ audio.addEventListener('ended', () => {
     playNextMusic();
   }
 });
+
+
+loadMusic(currentMusicIndex);
