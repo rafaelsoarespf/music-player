@@ -329,7 +329,8 @@ main {
   bottom: 160%; 
 }
 
-.card__btn-repeat {
+.card__btn-repeat,
+.card__btn-shuffle {
   display: flex;
   align-items: center;
   justify-content: center;

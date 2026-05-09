@@ -11,7 +11,8 @@ export async function initMusicPlayer() {
   btnPlay.addEventListener('click', btnPlayTogglePlayPause);
   btnPrev.addEventListener('click', btnPrevMusicPrev);
   btnNext.addEventListener('click', btnNextMusicNext);
-  btnRepeat.addEventListener('click', () => btnRepeatMusicRepeat());
+  btnRepeat.addEventListener('click', btnRepeatMusicRepeat);
+  btnShuffle.addEventListener('click', toggleShuffle);
 
   // Volume
   volumeSlider.addEventListener('input', volumeSliderUpdate);
@@ -38,6 +39,7 @@ const btnPlay = document.querySelector('.card__btn-play') as HTMLButtonElement;
 const btnPrev = document.querySelector('.card__btn-prev') as HTMLButtonElement;
 const btnNext = document.querySelector('.card__btn-next') as HTMLButtonElement;
 const btnRepeat = document.querySelector('.card__btn-repeat') as HTMLButtonElement;
+const btnShuffle = document.querySelector('.card__btn-shuffle') as HTMLButtonElement;
 const progress = document.querySelector('.card__progress') as HTMLDivElement;
 const progressContainer = document.querySelector('.card__progress-container') as HTMLDivElement;
 const image = document.querySelector('#card__image') as HTMLImageElement;
@@ -60,7 +62,6 @@ async function loadPlaylistData(url: string) {
 function loadMusic(index: number) {
   const music = playlist[index];
   if (!music) return;
-
   audio.src = music.src;
   musicTitle.textContent = music.title;
   author.textContent = music.author;
@@ -99,8 +100,25 @@ function btnPrevMusicPrev() {
 // ===========================================================
 // btnNextMusicNext ==========================================
 function btnNextMusicNext() {
-  currentMusicIndex = (currentMusicIndex + 1) % playlist.length;
+  if (shuffleMusic) {
+    let nextIndex;
+    do {
+      nextIndex = Math.floor(Math.random() * playlist.length);
+    } while (nextIndex === currentMusicIndex && playlist.length > 1);
+    currentMusicIndex = nextIndex;
+  } else {
+    currentMusicIndex = (currentMusicIndex + 1) % playlist.length;
+  }
   loadMusic(currentMusicIndex);
+}
+
+// ===========================================================
+// Shuffle ===================================================
+let shuffleMusic = false;
+
+function toggleShuffle(){
+  shuffleMusic = !shuffleMusic;
+  btnShuffle.textContent = shuffleMusic ? '🔀✔️' : ''; 
 }
 
 // ===========================================================

@@ -7,7 +7,8 @@ export async function initMusicPlayer() {
     btnPlay.addEventListener('click', btnPlayTogglePlayPause);
     btnPrev.addEventListener('click', btnPrevMusicPrev);
     btnNext.addEventListener('click', btnNextMusicNext);
-    btnRepeat.addEventListener('click', () => btnRepeatMusicRepeat());
+    btnRepeat.addEventListener('click', btnRepeatMusicRepeat);
+    btnShuffle.addEventListener('click', toggleShuffle);
     // Volume
     volumeSlider.addEventListener('input', volumeSliderUpdate);
     //Progress Bar
@@ -29,6 +30,7 @@ const btnPlay = document.querySelector('.card__btn-play');
 const btnPrev = document.querySelector('.card__btn-prev');
 const btnNext = document.querySelector('.card__btn-next');
 const btnRepeat = document.querySelector('.card__btn-repeat');
+const btnShuffle = document.querySelector('.card__btn-shuffle');
 const progress = document.querySelector('.card__progress');
 const progressContainer = document.querySelector('.card__progress-container');
 const image = document.querySelector('#card__image');
@@ -84,8 +86,24 @@ function btnPrevMusicPrev() {
 // ===========================================================
 // btnNextMusicNext ==========================================
 function btnNextMusicNext() {
-    currentMusicIndex = (currentMusicIndex + 1) % playlist.length;
+    if (shuffleMusic) {
+        let nextIndex;
+        do {
+            nextIndex = Math.floor(Math.random() * playlist.length);
+        } while (nextIndex === currentMusicIndex && playlist.length > 1);
+        currentMusicIndex = nextIndex;
+    }
+    else {
+        currentMusicIndex = (currentMusicIndex + 1) % playlist.length;
+    }
     loadMusic(currentMusicIndex);
+}
+// ===========================================================
+// Shuffle ===================================================
+let shuffleMusic = false;
+function toggleShuffle() {
+    shuffleMusic = !shuffleMusic;
+    btnShuffle.textContent = shuffleMusic ? '🔀' : '🔀✔️';
 }
 // ===========================================================
 // btnRepeatMusicRepeat ======================================
