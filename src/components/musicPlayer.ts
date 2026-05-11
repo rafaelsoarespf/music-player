@@ -8,8 +8,7 @@ export async function initMusicPlayer() {
   await MusicService.loadPlaylistData('/src/assets/data/music.json');
 
   loadMusic(MusicService.getCurrentMusic()); 
-  
-  pauseMusic();
+  audio.pause();
 
   //sound wave
   initSoundWave(audioEl, waveContainer);
@@ -20,6 +19,10 @@ export async function initMusicPlayer() {
   btnNext.addEventListener('click', btnNextMusicNext);
   btnRepeat.addEventListener('click', btnRepeatMusicRepeat);
   btnShuffle.addEventListener('click', toggleShuffle);
+
+  //play and pause
+  audio.addEventListener('play', () => updatePlayPauseButtonState(true));
+  audio.addEventListener('pause', () => updatePlayPauseButtonState(false));
 
   // Volume
   volumeSlider.addEventListener('input', volumeSliderUpdate);
@@ -68,26 +71,23 @@ function loadMusic(music: Music | null) {
   image.src = music.image;
 
   image.onload = () => backgroundColorImage();
-  playMusic();
+  audio.play()
 }
 
 // ===========================================================
-// btnPlayTogglePlayPause ====================================
+// play / pause ==============================================
 function btnPlayTogglePlayPause() {
-  audio.paused ? playMusic() : pauseMusic();
+  audio.paused ? audio.play() : audio.pause();
 }
 
-function playMusic() {
-  audio.play();
-  btnPlay.innerHTML = '<i class="fa-solid fa-pause"></i>';
-  image.classList.add('animation__card__image');
-}
+//false -> pause and true -> play
+function updatePlayPauseButtonState(isPlaying: boolean) {
+  const icon = btnPlay.querySelector('i');
+  if (!icon) return;
 
-function pauseMusic() {
-  audio.pause();
-  btnPlay.innerHTML = '<i class="fa-solid fa-play"></i>';
-  if (!card) return;
-  image.classList.remove('animation__card__image');
+  icon.classList.toggle('fa-pause', isPlaying);
+  icon.classList.toggle('fa-play', !isPlaying);
+  image.classList.toggle('animation__card__image', isPlaying);
 }
 
 // ===========================================================
@@ -133,7 +133,7 @@ function volumeSliderUpdate() {
 function musicEnd() {
   if (MusicService.isRepeatEnabled()) {
     audio.currentTime = 0;
-    playMusic();
+    audio.play();
     return;
   }
   MusicService.nextMusic();
