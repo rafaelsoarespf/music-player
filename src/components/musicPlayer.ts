@@ -13,6 +13,9 @@ export async function initMusicPlayer() {
   //sound wave
   initSoundWave(audioEl, waveContainer);
 
+  //playlist
+  renderPlaylist();
+
   //btn
   btnPlay.addEventListener('click', btnPlayTogglePlayPause);
   btnPrev.addEventListener('click', btnPrevMusicPrev);
@@ -58,7 +61,7 @@ const durationEl = document.querySelector('#duration') as HTMLSpanElement;
 const volumeSlider = document.getElementById('volume') as HTMLInputElement;
 const audioEl = document.getElementById('card__audio') as HTMLAudioElement;
 const waveContainer = document.getElementById('card__sound-wave') as HTMLDivElement;
-
+const playlistContainer = document.querySelector('#playlist') as HTMLDivElement;
 
 // ===========================================================
 // loadMusic =================================================
@@ -102,6 +105,7 @@ function btnPrevMusicPrev() {
 function btnNextMusicNext() {
   MusicService.nextMusic();
   loadMusic(MusicService.getCurrentMusic());
+  renderPlaylist();
 }
 
 // ===========================================================
@@ -120,6 +124,7 @@ function btnRepeatMusicRepeat() {
   if (!icon) return;
   icon.style.color = MusicService.toggleRepeat()
     ? 'var(--color-accent)' : '';
+  renderPlaylist();
 }
 
 // ===========================================================
@@ -138,6 +143,7 @@ function musicEnd() {
   }
   MusicService.nextMusic();
   loadMusic( MusicService.getCurrentMusic());
+  renderPlaylist();
 }
 
 // ===========================================================
@@ -239,4 +245,36 @@ function getDominantColorImage(img: HTMLImageElement): string {
   b = Math.floor(b / count);
 
   return `rgb(${r},${g},${b})`;
+}
+
+//playlist
+function renderPlaylist() {
+  const playlist = MusicService.getPlaylist?.() || [];
+  playlistContainer.innerHTML = '';
+
+  playlist.forEach((music, index) => {
+    const item = document.createElement('div');
+    item.classList.add('playlist-item');
+
+    if (index === MusicService.getCurrentIndex?.()) {
+      item.classList.add('active');
+    }
+
+    item.innerHTML = `
+      <img class="playlist-image" src="${music.image}" alt="${music.title}" />
+
+      <div class="playlist-info">
+        <div class="playlist-title">${music.title}</div>
+        <div class="playlist-subtitle">${music.author}</div>
+      </div>
+    `;
+
+    item.addEventListener('click', () => {
+      MusicService.setCurrentIndex(index);
+      loadMusic(MusicService.getCurrentMusic());
+      renderPlaylist();
+    });
+
+    playlistContainer.appendChild(item);
+  });
 }

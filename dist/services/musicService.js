@@ -11,9 +11,9 @@ export async function loadPlaylistData(url) {
     playlist = await res.json();
 }
 // ===========================================================
-// getMusic ==================================================
-export function getMusic(index) {
-    return playlist[index] || null;
+// getPlaylist ===============================================
+export function getPlaylist() {
+    return playlist;
 }
 // ===========================================================
 // CurrentMusic ==============================================
@@ -22,6 +22,9 @@ export function getCurrentMusic() {
 }
 // ===========================================================
 // setCurrentIndex ===========================================
+export function getCurrentIndex() {
+    return currentMusicIndex;
+}
 export function setCurrentIndex(index) {
     if (index < 0 || index >= playlist.length)
         return;

@@ -15,9 +15,9 @@ export async function loadPlaylistData(url: string) {
 }
 
 // ===========================================================
-// getMusic ==================================================
-export function getMusic(index: number): Music | null {
-  return playlist[index] || null;
+// getPlaylist ===============================================
+export function getPlaylist(): Music[] {
+  return playlist;
 }
 
 // ===========================================================
@@ -28,6 +28,10 @@ export function getCurrentMusic(): Music | null {
 
 // ===========================================================
 // setCurrentIndex ===========================================
+export function getCurrentIndex() {
+  return currentMusicIndex;
+}
+
 export function setCurrentIndex(index: number) {
   if (index < 0 || index >= playlist.length) return;
   currentMusicIndex = index;

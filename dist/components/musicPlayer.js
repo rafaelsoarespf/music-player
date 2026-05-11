@@ -7,6 +7,8 @@ export async function initMusicPlayer() {
     audio.pause();
     //sound wave
     initSoundWave(audioEl, waveContainer);
+    //playlist
+    renderPlaylist();
     //btn
     btnPlay.addEventListener('click', btnPlayTogglePlayPause);
     btnPrev.addEventListener('click', btnPrevMusicPrev);
@@ -46,6 +48,7 @@ const durationEl = document.querySelector('#duration');
 const volumeSlider = document.getElementById('volume');
 const audioEl = document.getElementById('card__audio');
 const waveContainer = document.getElementById('card__sound-wave');
+const playlistContainer = document.querySelector('#playlist');
 // ===========================================================
 // loadMusic =================================================
 function loadMusic(music) {
@@ -83,6 +86,7 @@ function btnPrevMusicPrev() {
 function btnNextMusicNext() {
     MusicService.nextMusic();
     loadMusic(MusicService.getCurrentMusic());
+    renderPlaylist();
 }
 // ===========================================================
 // Shuffle ===================================================
@@ -101,6 +105,7 @@ function btnRepeatMusicRepeat() {
         return;
     icon.style.color = MusicService.toggleRepeat()
         ? 'var(--color-accent)' : '';
+    renderPlaylist();
 }
 // ===========================================================
 // volumeSliderUpdateVolume ==================================
@@ -117,6 +122,7 @@ function musicEnd() {
     }
     MusicService.nextMusic();
     loadMusic(MusicService.getCurrentMusic());
+    renderPlaylist();
 }
 // ===========================================================
 // ProgressBar ===============================================
@@ -206,5 +212,31 @@ function getDominantColorImage(img) {
     g = Math.floor(g / count);
     b = Math.floor(b / count);
     return `rgb(${r},${g},${b})`;
+}
+//playlist
+function renderPlaylist() {
+    const playlist = MusicService.getPlaylist?.() || [];
+    playlistContainer.innerHTML = '';
+    playlist.forEach((music, index) => {
+        const item = document.createElement('div');
+        item.classList.add('playlist-item');
+        if (index === MusicService.getCurrentIndex?.()) {
+            item.classList.add('active');
+        }
+        item.innerHTML = `
+      <img class="playlist-image" src="${music.image}" alt="${music.title}" />
+
+      <div class="playlist-info">
+        <div class="playlist-title">${music.title}</div>
+        <div class="playlist-subtitle">${music.author}</div>
+      </div>
+    `;
+        item.addEventListener('click', () => {
+            MusicService.setCurrentIndex(index);
+            loadMusic(MusicService.getCurrentMusic());
+            renderPlaylist();
+        });
+        playlistContainer.appendChild(item);
+    });
 }
 //# sourceMappingURL=musicPlayer.js.map
