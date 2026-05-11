@@ -1,8 +1,9 @@
+import * as MusicService from '../services/musicService.js';
 // ============================================================
 // init =======================================================
 export async function initMusicPlayer() {
-    await loadPlaylistData("/src/assets/data/music.json");
-    loadMusic(currentMusicIndex);
+    await MusicService.loadPlaylistData('/src/assets/data/music.json');
+    loadMusic(MusicService.getCurrentMusic());
     pauseMusic();
     //sound wave
     initSoundWave(audioEl, waveContainer);
@@ -42,18 +43,9 @@ const durationEl = document.querySelector('#duration');
 const volumeSlider = document.getElementById('volume');
 const audioEl = document.getElementById('card__audio');
 const waveContainer = document.getElementById('card__sound-wave');
-let playlist = [];
-let currentMusicIndex = 0;
-// ===========================================================
-// loadPlaylistData ==========================================
-async function loadPlaylistData(url) {
-    const res = await fetch(url);
-    playlist = await res.json();
-}
 // ===========================================================
 // loadMusic =================================================
-function loadMusic(index) {
-    const music = playlist[index];
+function loadMusic(music) {
     if (!music)
         return;
     audio.src = music.src;
@@ -71,8 +63,6 @@ function btnPlayTogglePlayPause() {
 function playMusic() {
     audio.play();
     btnPlay.innerHTML = '<i class="fa-solid fa-pause"></i>';
-    if (!card)
-        return;
     image.classList.add('animation__card__image');
 }
 function pauseMusic() {
@@ -85,43 +75,32 @@ function pauseMusic() {
 // ===========================================================
 // function btnPrevMusicPrev() ===============================
 function btnPrevMusicPrev() {
-    currentMusicIndex = (currentMusicIndex - 1 + playlist.length) % playlist.length;
-    loadMusic(currentMusicIndex);
+    MusicService.prevMusic();
+    loadMusic(MusicService.getCurrentMusic());
 }
 // ===========================================================
 // btnNextMusicNext ==========================================
 function btnNextMusicNext() {
-    if (shuffleMusic) {
-        let nextIndex;
-        do {
-            nextIndex = Math.floor(Math.random() * playlist.length);
-        } while (nextIndex === currentMusicIndex && playlist.length > 1);
-        currentMusicIndex = nextIndex;
-    }
-    else {
-        currentMusicIndex = (currentMusicIndex + 1) % playlist.length;
-    }
-    loadMusic(currentMusicIndex);
+    MusicService.nextMusic();
+    loadMusic(MusicService.getCurrentMusic());
 }
 // ===========================================================
 // Shuffle ===================================================
-let shuffleMusic = false;
 function toggleShuffle() {
-    shuffleMusic = !shuffleMusic;
     const icon = btnShuffle.querySelector('i');
     if (!icon)
         return;
-    icon.style.color = shuffleMusic ? 'var(--color-accent)' : '';
+    icon.style.color = MusicService.toggleShuffle()
+        ? 'var(--color-accent)' : '';
 }
 // ===========================================================
 // btnRepeatMusicRepeat ======================================
-let repeatMusic = false;
 function btnRepeatMusicRepeat() {
-    repeatMusic = !repeatMusic;
     const icon = btnRepeat.querySelector('i');
     if (!icon)
         return;
-    icon.style.color = repeatMusic ? 'var(--color-accent)' : '';
+    icon.style.color = MusicService.toggleRepeat()
+        ? 'var(--color-accent)' : '';
 }
 // ===========================================================
 // volumeSliderUpdateVolume ==================================
@@ -131,13 +110,13 @@ function volumeSliderUpdate() {
 // ===========================================================
 // musicEnd ============================================
 function musicEnd() {
-    if (repeatMusic) {
+    if (MusicService.isRepeatEnabled()) {
         audio.currentTime = 0;
         playMusic();
+        return;
     }
-    else {
-        btnNextMusicNext();
-    }
+    MusicService.nextMusic();
+    loadMusic(MusicService.getCurrentMusic());
 }
 // ===========================================================
 // ProgressBar ===============================================
@@ -154,12 +133,14 @@ function progressBarSeek(e) {
 // Time - updateTimeDisplay ==================================
 function updateTimeDisplay() {
     const formatTime = (seconds) => {
+        if (!Number.isFinite(seconds))
+            return '0:00';
         const mins = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     };
-    durationEl.textContent = formatTime(audio.duration);
     currentTimeEl.textContent = formatTime(audio.currentTime);
+    durationEl.textContent = formatTime(audio.duration);
 }
 // ===========================================================
 // Sound Wave ================================================
