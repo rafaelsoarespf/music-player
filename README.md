@@ -4,6 +4,11 @@ A modern and interactive music player built with TypeScript, focused on clean ar
 
 The project includes playlist management, shuffle and repeat controls, animated sound visualization, dynamic background effects based on album artwork, and responsive UI interactions inspired by modern streaming platforms.
 
+## 📷 Preview
+
+![Music Player Preview](./preview/demo.gif)
+
+
 ## ✨ Features
 
 - Play / Pause controls

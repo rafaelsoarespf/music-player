@@ -442,10 +442,9 @@ main {
 
 
 .playlist-item.active::before {
-  left: 10px;
   content: "";
   position: absolute;
-  left: 10px;
+  left: 4px;
   top: 50%;
   transform: translateY(-50%);
   width: 6px;
