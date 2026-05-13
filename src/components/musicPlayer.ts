@@ -11,7 +11,7 @@ export async function initMusicPlayer() {
   audio.pause();
 
   //sound wave
-  initSoundWave(audioEl, waveContainer);
+  initSoundWave(audio, waveContainer);
 
   //playlist
   renderPlaylist();
@@ -59,7 +59,6 @@ const image = document.querySelector('#card__image') as HTMLImageElement;
 const currentTimeEl = document.querySelector('#current-time') as HTMLSpanElement;
 const durationEl = document.querySelector('#duration') as HTMLSpanElement;
 const volumeSlider = document.getElementById('volume') as HTMLInputElement;
-const audioEl = document.getElementById('card__audio') as HTMLAudioElement;
 const waveContainer = document.getElementById('card__sound-wave') as HTMLDivElement;
 const playlistContainer = document.querySelector('#playlist') as HTMLDivElement;
 

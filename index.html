@@ -27,16 +27,16 @@
   <!--CSS-->
   <link rel="stylesheet" href="src/styles/style.css" type="text/css" />
   <!--Javascript-->
-  <script rel="preload" type="module" src="dist/main.js" defer></script>
+  <script type="module" src="dist/main.js" defer></script>
 </head>
 
 <body>
-  <header role="header">
+  <header>
   </header>
 
   <main role="main">
     <!--card =====================================-->
-    <div id="card" class="card">
+    <div id="card" class="card" aria-label="Music player">
       <h2 id="card__title">Nome da Música</h2>
       <p id="card__author">Descrição da Música</p>
 
@@ -45,7 +45,7 @@
       <!--card sound wave-->
       <div id="card__sound-wave" class="card__sound-wave"></div>
       <!--card audio-->
-      <audio id="card__audio" src="src/assets/audio/music.mp3"></audio>
+      <audio id="card__audio" src="src/assets/audio/music.mp3" preload="metadata"></audio>
       
       <!--card progress-->
       <div class="card__progress-container">
@@ -60,11 +60,11 @@
       <!--card controls-->
       <div class="card__controls">
         <button style="opacity: 0; cursor: auto;"></button>
-        <button class="card__btn-shuffle btn"><i class="fa-solid fa-shuffle"></i></button>
-        <button class="card__btn-prev btn"><i class="fa-solid fa-backward-step"></i></button>
-        <button class="card__btn-play btn"><i class="fa-solid fa-play"></i></button>
-        <button class="card__btn-next btn"><i class="fa-solid fa-forward-step"></i></button>
-        <button class="card__btn-repeat btn"><i class="fa-solid fa-repeat"></i></button>
+        <button class="card__btn-shuffle btn" aria-label="Shuffle"><i class="fa-solid fa-shuffle"></i></button>
+        <button class="card__btn-prev btn" aria-label="Prev"><i class="fa-solid fa-backward-step"></i></button>
+        <button class="card__btn-play btn" aria-label="Play/Pause"><i class="fa-solid fa-play"></i></button>
+        <button class="card__btn-next btn" aria-label="Next"><i class="fa-solid fa-forward-step"></i></button>
+        <button class="card__btn-repeat btn" aria-label="Repeat"><i class="fa-solid fa-repeat"></i></button>
         <!--card volume-->
         <div class="card__volume">
           <label for="volume"><i class="fa-solid fa-volume"></i></label>
@@ -75,7 +75,8 @@
     
     <div id="playlist" class="playlist"></div>
 
-  <footer role="footer">
+  </main>
+  <footer>
   </footer>
 </body>
 

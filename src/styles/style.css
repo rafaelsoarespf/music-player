@@ -28,6 +28,22 @@
   box-sizing: border-box;
 }
 
+/*scrollbar*/
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-surface-2) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--color-surface-2);
+  border-radius: 999px;
+}
+
+
 /*rolagem suave para âncoras internas*/
 @media (prefers-reduced-motion: no-preference) {html {scroll-behavior: smooth;}}
 
@@ -37,25 +53,8 @@
   outline-offset: 4px;
 }
 
-/*quando um texto for selecionado*/
-::selection {
-  background: var(--color-accent);
-  color: white;
-}
-
-/*scrollbar*/
-::-webkit-scrollbar {
-  background-color: var(--color-surface-1);
-  width: 10px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: var(--color-surface-2);
-  border: solid 1px var(--color-border);
-  border-radius: 5px;
-}
-
 html,body {
-  min-height: 100vh;
+  min-height: 100dvh;
   line-height: 1.6;
   letter-spacing: 0.02em;
   background: var(--color-background);
@@ -110,7 +109,6 @@ button {
   border-radius: 8px;
   border: 1px solid var(--color-accent);
   box-shadow: 0 4px 10px var(--color-shadow);
-  will-change: transform;
 }
 
 a:hover, button:hover {
@@ -195,7 +193,7 @@ main {
   background: var(--color-surface-1);
   opacity: 0.8;                     
   backdrop-filter: var(--blur);      
-  -webkit-backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: var(--blur);
   border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 2rem;
   border-radius: 12px;
@@ -344,7 +342,7 @@ main {
   z-index: 3; 
 }
 
-.card__volume:hover #volume {
+.card__volume:hover #volume, .card__volume:focus-within {
   opacity: 1;
   bottom: 160%; 
 }
@@ -420,7 +418,7 @@ main {
   padding: 5px 12px;
   border-radius: 10px;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: transform 0.25s ease,background-color 0.25s ease,box-shadow 0.25s ease;
   background: var(--color-surface-1);
   border: 1px solid var(--color-border);
   backdrop-filter: var(--blur);
@@ -444,6 +442,7 @@ main {
 
 
 .playlist-item.active::before {
+  left: 10px;
   content: "";
   position: absolute;
   left: 10px;
@@ -472,10 +471,6 @@ main {
   }
 }
 
-.playlist-item.active {
-  padding-left: 28px;
-}
-
 .playlist-image {
   width: 44px;
   height: 44px;
@@ -497,7 +492,7 @@ main {
 
 .playlist-title {
   color: var(--color-title);
-  font: var(--font-subtext);
+  font: var(--font-subtitle);
   letter-spacing: 0.2px;
 }
 
