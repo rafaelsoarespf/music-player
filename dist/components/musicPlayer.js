@@ -2,11 +2,11 @@ import * as MusicService from '../services/musicService.js';
 // ============================================================
 // init =======================================================
 export async function initMusicPlayer() {
-    await MusicService.loadPlaylistData('/src/assets/data/music.json');
+    await MusicService.loadPlaylistData('../../src/assets/data/music.json');
     loadMusic(MusicService.getCurrentMusic());
     audio.pause();
     //sound wave
-    initSoundWave(audioEl, waveContainer);
+    initSoundWave(audio, waveContainer);
     //playlist
     renderPlaylist();
     //btn
@@ -46,7 +46,6 @@ const image = document.querySelector('#card__image');
 const currentTimeEl = document.querySelector('#current-time');
 const durationEl = document.querySelector('#duration');
 const volumeSlider = document.getElementById('volume');
-const audioEl = document.getElementById('card__audio');
 const waveContainer = document.getElementById('card__sound-wave');
 const playlistContainer = document.querySelector('#playlist');
 // ===========================================================
