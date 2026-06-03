@@ -7,7 +7,15 @@ let repeat = false;
 // ===========================================================
 // loadPlaylistData ==========================================
 export async function loadPlaylistData(url) {
-    const res = await fetch(url);
+    let res;
+    try {
+        res = await fetch(url);
+        if (!res.ok)
+            throw new Error();
+    }
+    catch {
+        res = await fetch('../../public/assets/data/music.json');
+    }
     playlist = await res.json();
 }
 // ===========================================================

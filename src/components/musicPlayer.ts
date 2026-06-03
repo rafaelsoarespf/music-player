@@ -4,7 +4,8 @@ import * as MusicService from '../services/musicService.js';
 // ============================================================
 // init =======================================================
 export async function initMusicPlayer() {
-  await MusicService.loadPlaylistData('../../src/assets/data/music.json');
+  
+  await MusicService.loadPlaylistData('/assets/data/music.json');
 
   loadMusic(MusicService.getCurrentMusic()); 
   audio.pause();
