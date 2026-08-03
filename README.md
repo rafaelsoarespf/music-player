@@ -8,6 +8,9 @@ The project includes playlist management, shuffle and repeat controls, animated 
 
 ![Music Player Preview](./preview/demo.gif)
 
+## 🔗 Live Demo
+
+https://rafaelsoarespf.github.io/music-player/
 
 ## ✨ Features
 
@@ -27,6 +30,14 @@ The project includes playlist management, shuffle and repeat controls, animated 
 - HTML5
 - CSS3
 - TypeScript
+- JSON
+
+## 🌐 Web APIs
+
+- HTML Audio API
+- Web Audio API
+- Fetch API
+- Canvas API
 
 ## 🎯 Purpose
 
