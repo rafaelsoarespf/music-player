@@ -14,7 +14,7 @@ export async function loadPlaylistData(url) {
             throw new Error();
     }
     catch {
-        res = await fetch('../../public/assets/data/music.json');
+        res = await fetch('./public/assets/data/music.json');
     }
     playlist = await res.json();
 }
